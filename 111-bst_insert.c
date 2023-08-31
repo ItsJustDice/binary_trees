@@ -1,5 +1,4 @@
 #include "binary_trees.h"
-
 /**
  * bst_insert - inserts a value in a Binary Search Tree
  * @tree: a double pointer to the root node of the BST to insert the value
@@ -9,40 +8,41 @@
  */
 bst_t *bst_insert(bst_t **tree, int value)
 {
-	bst_t *tmp = NULL;
-	bst_t *second = NULL;
-	bst_t *new = NULL;
-
+	/* Initilizes 3 pointers as NULL */
+	bst_t *len2 = NULL;
+	bst_t *count = NULL;
+	bst_t *i = NULL;
+	/* checks if input tree is NULL */
 	if (!tree)
-		return (NULL);
-	if (*tree == NULL)
+		return (NULL); /* returns 0 if emprty or NULL */
+	if (*tree == NULL) /* if not empty, assigns new node if tree empty */
 		return (*tree = binary_tree_node(NULL, value));
 
-	tmp = *tree;
-	while (tmp)
+	len2 = *tree;
+	while (len2) /* enters in while loop iterates position */
 	{
-		second = tmp;
-		if (value < tmp->n)
-			tmp = tmp->left;
-		else if (value > tmp->n)
-			tmp = tmp->right;
-		else if (value == tmp->n)
-			return (NULL);
+		count = len2; /* set to the root of the tree */
+		if (value < len2->n) /* value less len2, updates to r child */
+			len2 = len2->left; /* updates to len2 value greater */
+		else if (value > len2->n)
+			len2 = len2->right;
+		else if (value == len2->n)
+			return (NULL); /*return NULL if equal value */
 	}
 
-	new = binary_tree_node(NULL, value);
-	if (second == NULL)
-		second = new;
-	else if (value < second->n)
+	i = binary_tree_node(NULL, value); /* creates new node */
+	if (count == NULL)
+		count = i; /* checks if count is NULL value */
+	else if (value < count->n) /* checks if value is less than */
 	{
-		second->left = new;
-		new->parent = second;
+		count->left = i; /* Parent pointer is set to count */
+		i->parent = count; /* unless count is r child, i is Parent */
 	}
 	else
 	{
-		second->right = new;
-		new->parent = second;
+		count->right = i;
+		i->parent = count;
 	}
 
-	return (new);
+	return (i); /* returns new node i, new value is successful */
 }
